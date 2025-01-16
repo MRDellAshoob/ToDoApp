@@ -1,0 +1,78 @@
+.tabs {
+  width: 100%;
+  display: flex;
+  padding-top: 31px;
+  background-color: #fff;
+  .tab_title {
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    flex: 1;
+  }
+}
+
+.tab_content {
+  margin-top: 16px;
+  .tab_content_title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+
+  .tab_content_time {
+    font-size: 14px;
+    font-weight: 500;
+    color: #9f9f9f;
+  }
+
+  .add_task_btn {
+    background-color: #0760fb1a;
+    color: #0760fb;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 15px;
+    border-radius: 10px;
+  }
+}
+
+.status_tabs {
+  margin: 40px 0;
+  .status_tab {
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    cursor: pointer;
+    .status_tab_title {
+      font-size: 14px;
+      font-weight: 400;
+      color: #9f9f9f;
+    }
+    .status_tab_badge {
+      padding: 3px 7px;
+      background-color: #d9d9d9;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 500;
+      border-radius: 50%;
+      margin-left: 5px;
+    }
+    .status_tab_badge.active {
+      padding: 3px 5px;
+      background-color: #0760fb;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 600;
+      border-radius: 50%;
+      margin-left: 5px;
+    }
+    .status_tab_title.active {
+      font-size: 14px;
+      font-weight: 600;
+      color: #0760fb !important;
+    }
+  }
+}
+
+.status_tab_first {
+  padding: 0 15px 0 0 !important;
+  border-right: 1px solid #9f9f9f;
+}
