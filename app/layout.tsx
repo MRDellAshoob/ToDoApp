@@ -1,6 +1,8 @@
 "use client";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { CssBaseline } from "@mui/material";
 
 import "./globals.css";
@@ -21,7 +23,10 @@ export default function RootLayout({
       </head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <body>{children}</body>
+        <body>
+          {children}
+          <ToastContainer />
+        </body>
       </ThemeProvider>
     </html>
   );

@@ -5,7 +5,9 @@ import StatusTabs from "./components/TodoListStatusTabs";
 import TodoItem from "./TodoListItem";
 import styles from "./TodoList.module.scss";
 interface TabContentProps {
-  content: string;
+  content: [];
+  tabType: number;
+  onUpdateTodo: (updatedItem: TodoItem, tabType: number) => void;
 }
 const statusTabs = [
   {
@@ -33,7 +35,27 @@ const statusTabs = [
     isFirst: false,
   },
 ];
-const TabContent: React.FC<TabContentProps> = ({ content }) => {
+
+type TodoItem = {
+  title: string;
+  start_date: string;
+  end_date: string;
+  is_completed: boolean;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  _id: string;
+};
+
+const TabContent: React.FC<TabContentProps> = ({
+  content,
+  tabType,
+  onUpdateTodo,
+}) => {
+  console.log(content, "as;ldkas;dkas;das;dasl;dkas;dlkas;daskd;l");
+  const handleCompleteTask = (item: TodoItem) => {
+    onUpdateTodo(item, tabType);
+  };
   return (
     <div className={styles.tab_content}>
       <Box
@@ -65,7 +87,13 @@ const TabContent: React.FC<TabContentProps> = ({ content }) => {
         <StatusTabs tabs={statusTabs} />
       </Box>
       <Box>
-        <TodoItem />
+        {content.length > 0 ? (
+          content.map((item, index) => (
+            <TodoItem key={index} onUpdate={handleCompleteTask} todo={item} />
+          ))
+        ) : (
+          <p>No data available</p>
+        )}
       </Box>
     </div>
   );
