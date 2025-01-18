@@ -1,27 +1,29 @@
 import React from "react";
 import { Box, Badge } from "@mui/material";
-import { Add } from "@mui/icons-material";
 import styles from "../TodoList.module.scss";
+
 interface TabItem {
   title: string;
   badgeContent: number;
   active: boolean;
   isFirst: boolean;
 }
+
 interface StatusTabsProps {
-  content: [];
+  tabs: TabItem[];
 }
 
-const StatusTabs: React.FC<StatusTabsProps> = ({ content }) => {
+const StatusTabs: React.FC<StatusTabsProps> = ({ tabs }) => {
   return (
     <div className={styles.status_tabs}>
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
-        {content.map((tab: TabItem, index: number) => (
+        {tabs.map((tab: TabItem, index: number) => (
           <div
             key={index}
             className={`${styles.status_tab} ${

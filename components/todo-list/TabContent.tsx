@@ -2,6 +2,7 @@ import React from "react";
 import { Box } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import StatusTabs from "./components/TodoListStatusTabs";
+import TodoItem from "./TodoListItem";
 import styles from "./TodoList.module.scss";
 interface TabContentProps {
   content: string;
@@ -61,7 +62,10 @@ const TabContent: React.FC<TabContentProps> = ({ content }) => {
         </div>
       </Box>
       <Box>
-        <StatusTabs content={statusTabs} />
+        <StatusTabs tabs={statusTabs} />
+      </Box>
+      <Box>
+        <TodoItem />
       </Box>
     </div>
   );
