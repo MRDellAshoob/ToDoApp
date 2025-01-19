@@ -16,4 +16,7 @@ npm run start
 
 ```
 
-NOTE : The project can still be much better, the axios routes can be broken into different files in the api folder, and some optimization fixes with more following SOLID principles `(:`
+NOTE :
+
+- The project can still be much better, the axios routes can be broken into different files in the api folder, and some optimization fixes with more following SOLID principles
+- Also, the required features and project stack don't need Redux or even Context. Keep it simple and `smile(:`!
