@@ -5,41 +5,22 @@ import { getFormattedTodayDate } from "@/helpers/dateTimeHelper";
 import { showSuccessToast, showErrorToast } from "@/utils/toast";
 
 import BaseModal from "@/components/global/BaseModal";
-
+import {
+  TodoItemTypes,
+  TabContentProps,
+  TabStatusItem,
+} from "./types/TodoTypes";
 import StatusTabs from "./components/TodoListStatusTabs";
 import TodoItem from "./TodoListItem";
 import styles from "./TodoList.module.scss";
 import TaskForm from "./components/TaskForm";
 import AxiosInstance from "@/utils/axiosInstance";
-interface TabContentProps {
-  content: [];
-  tabType: number;
-  onUpdateTodo: (updatedItem: TodoItem, tabType: number) => void;
-}
-
-type TodoItem = {
-  title: string;
-  start_date: string;
-  end_date: string;
-  is_completed: boolean;
-  description: string;
-  createdAt: string;
-  updatedAt: string;
-  _id: string;
-};
-
-interface TabStatusItem {
-  title: string;
-  badgeContent: number;
-  active: boolean;
-  isFirst: boolean;
-  id: number;
-}
 
 const TabContent: React.FC<TabContentProps> = ({
   content,
   tabType,
   onUpdateTodo,
+  onCreateTodo,
 }) => {
   const [showTaskModal, setShowTaskModal] = useState<boolean>(false);
   const [editTask, setEditTask] = useState<object>({});
@@ -73,21 +54,15 @@ const TabContent: React.FC<TabContentProps> = ({
       isFirst: false,
     },
   ]);
-  const handleCompleteTask = (item: TodoItem) => {
+  const handleCompleteTask = (item: TodoItemTypes) => {
     onUpdateTodo(item, tabType);
   };
-  const handleEditTask = (item: TodoItem) => {
+  const handleEditTask = (item: TodoItemTypes) => {
     setEditTask(item);
     setShowTaskModal(true);
   };
 
-  const handleFormSubmit = async (formData: {
-    title: string;
-    description: string;
-    start_date: string;
-    end_date: string;
-    _id?: string;
-  }) => {
+  const handleFormSubmit = async (formData: TodoItemTypes) => {
     try {
       if (formData._id) {
         const response = await AxiosInstance.put(
@@ -96,11 +71,13 @@ const TabContent: React.FC<TabContentProps> = ({
             ...formData,
           }
         );
+        onUpdateTodo(formData, tabType);
         showSuccessToast("Task Updated Successfully");
       } else {
         const response = await AxiosInstance.post("/todos/create", {
           ...formData,
         });
+        onCreateTodo();
         showSuccessToast(response.message);
       }
 

@@ -2,26 +2,11 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/axiosInstance";
 import { showSuccessToast, showErrorToast } from "@/utils/toast";
+import { TabPanelProps, TodoItemTypes } from "./types/TodoTypes";
 import { isStartDateToday } from "@/helpers/dateTimeHelper";
 import { Tabs, Tab, Box, Typography } from "@mui/material";
 import styles from "./TodoList.module.scss";
 import TabContent from "./TabContent";
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-type TodoItem = {
-  title: string;
-  start_date: string;
-  end_date: string;
-  is_completed: boolean;
-  description: string;
-  createdAt: string;
-  updatedAt: string;
-  _id: string;
-};
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -57,7 +42,7 @@ const TodoList: React.FC = () => {
     setValue(newValue);
   };
 
-  const updateTask = (updatedTask: TodoItem, tab: number) => {
+  const updateTask = (updatedTask: TodoItemTypes, tab: number) => {
     if (tab) {
       setTomorrowTasks((prevTasks: any[]) =>
         prevTasks.map((task) =>
@@ -73,26 +58,25 @@ const TodoList: React.FC = () => {
     }
   };
 
+  const fetchData = async () => {
+    try {
+      const response = await AxiosInstance.get("/todos/fetch/all");
+      response.data.forEach((task: any) => {
+        if (isStartDateToday(task.start_date)) {
+          setTodaysTasks((prev: any) => [...prev, task]);
+        } else {
+          setTomorrowTasks((prev: any) => [...prev, task]);
+        }
+      });
+      showSuccessToast(response.message);
+    } catch (error) {
+      showErrorToast("Error fetching data");
+      console.error("Error fetching data:", error);
+    } finally {
+      setloading(false);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await AxiosInstance.get("/todos/fetch/all");
-        response.data.forEach((task: any) => {
-          if (isStartDateToday(task.start_date)) {
-            setTodaysTasks((prev: any) => [...prev, task]);
-          } else {
-            setTomorrowTasks((prev: any) => [...prev, task]);
-          }
-        });
-        showSuccessToast(response.message);
-      } catch (error) {
-        showErrorToast("Error fetching data");
-        console.error("Error fetching data:", error);
-      } finally {
-        setloading(false);
-      }
-    };
-
     fetchData();
   }, []);
 
@@ -118,6 +102,7 @@ const TodoList: React.FC = () => {
       <TabPanel value={value} index={0}>
         {!loading ? (
           <TabContent
+            onCreateTodo={fetchData}
             content={todaysTasks}
             tabType={value}
             onUpdateTodo={updateTask}
@@ -129,6 +114,7 @@ const TodoList: React.FC = () => {
       <TabPanel value={value} index={1}>
         {!loading ? (
           <TabContent
+            onCreateTodo={fetchData}
             content={tomorrowTasks}
             tabType={value}
             onUpdateTodo={updateTask}

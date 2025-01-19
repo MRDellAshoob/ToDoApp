@@ -6,23 +6,7 @@ import { Box } from "@mui/material";
 import styles from "./TodoList.module.scss";
 import CheckboxField from "@/components/global/BaseCheckboxField";
 import { formatTimeRange, isStartDateToday } from "@/helpers/dateTimeHelper";
-
-type TodoItem = {
-  title: string;
-  start_date: string;
-  end_date: string;
-  is_completed: boolean;
-  description: string;
-  createdAt: string;
-  updatedAt: string;
-  _id: string;
-};
-
-interface TodoListItemProps {
-  todo: TodoItem;
-  onUpdate: (todo: TodoItem) => void;
-  onEdit: (todo: TodoItem) => void;
-}
+import { TodoItemTypes, TodoListItemProps } from "./types/TodoTypes";
 
 const TodoListItem: React.FC<TodoListItemProps> = ({
   todo,
@@ -30,7 +14,7 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   onEdit,
 }) => {
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
-  const completeTask = async (todo: TodoItem) => {
+  const completeTask = async (todo: TodoItemTypes) => {
     try {
       const response = await AxiosInstance.put(`/todos/update/${todo._id}`, {
         is_completed: !todo.is_completed,
@@ -51,12 +35,8 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
     }
   };
 
-  const handleCheckboxChange = (checked: boolean, item: TodoItem) => {
+  const handleCheckboxChange = (checked: boolean, item: TodoItemTypes) => {
     completeTask(item);
-    // .then(() => {
-    //   item.is_completed = todo.is_completed;
-    //   setIsCompleted(todo.is_completed); // Update state if needed
-    // });
   };
   return (
     <Box sx={{ width: "100%" }}>
