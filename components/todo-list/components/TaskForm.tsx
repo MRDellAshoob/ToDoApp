@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Box, TextField, Button, Typography } from "@mui/material";
+import { Box, TextField, Button } from "@mui/material";
 import { formatDateForDatetimeLocal } from "@/helpers/dateTimeHelper";
+import { TodoItemTypes } from "../types/TodoTypes";
 interface FormProps {
   initialValues?: {
     title?: string;
@@ -9,13 +10,7 @@ interface FormProps {
     end_date?: string;
     _id?: string;
   };
-  onSubmit: (data: {
-    title: string;
-    description: string;
-    start_date: string;
-    end_date: string;
-    _id?: string;
-  }) => void;
+  onSubmit: (data: TodoItemTypes) => void;
   handleCloseModal: () => void;
 }
 
@@ -24,11 +19,12 @@ const TaskForm: React.FC<FormProps> = ({
   onSubmit,
   handleCloseModal,
 }) => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<TodoItemTypes>({
     title: "",
     description: "",
     start_date: "",
     end_date: "",
+    is_completed: false,
   });
 
   useEffect(() => {

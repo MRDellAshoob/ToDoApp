@@ -1,10 +1,8 @@
 import axios from "axios";
 
-// Create an instance of axios
 const axiosInstance = axios.create({
-//   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.example.com", // Replace with your API URL
-  baseURL: "http://frontendtest.ideallco.com/api/", // Replace with your API URL
-  timeout: 10000, // Request timeout in milliseconds
+  baseURL: "http://frontendtest.ideallco.com/api/",
+  timeout: 10000,
   headers: {
     "Content-Type": "application/json",
   },
@@ -13,7 +11,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.response.use(
   (response) => {
-    return response.data;
+    return response;
   },
   (error) => {
     if (error.response) {

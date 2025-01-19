@@ -2,9 +2,13 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/axiosInstance";
 import { showSuccessToast, showErrorToast } from "@/utils/toast";
-import { TabPanelProps, TodoItemTypes } from "./types/TodoTypes";
+import {
+  TabPanelProps,
+  TodoFormItemTypes,
+  TodoItemTypes,
+} from "./types/TodoTypes";
 import { isStartDateToday } from "@/helpers/dateTimeHelper";
-import { Tabs, Tab, Box, Typography } from "@mui/material";
+import { Tabs, Tab, Box } from "@mui/material";
 import styles from "./TodoList.module.scss";
 import TabContent from "./TabContent";
 
@@ -42,7 +46,7 @@ const TodoList: React.FC = () => {
     setValue(newValue);
   };
 
-  const updateTask = (updatedTask: TodoItemTypes, tab: number) => {
+  const updateTask = (updatedTask: TodoFormItemTypes, tab: number) => {
     if (tab) {
       setTomorrowTasks((prevTasks: any[]) =>
         prevTasks.map((task) =>
@@ -60,15 +64,15 @@ const TodoList: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      const response = await AxiosInstance.get("/todos/fetch/all");
-      response.data.forEach((task: any) => {
+      const { data } = await AxiosInstance.get("/todos/fetch/all");
+      data.data.forEach((task: any) => {
         if (isStartDateToday(task.start_date)) {
           setTodaysTasks((prev: any) => [...prev, task]);
         } else {
           setTomorrowTasks((prev: any) => [...prev, task]);
         }
       });
-      showSuccessToast(response.message);
+      showSuccessToast(data.message);
     } catch (error) {
       showErrorToast("Error fetching data");
       console.error("Error fetching data:", error);

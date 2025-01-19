@@ -1,17 +1,11 @@
 import React from "react";
-import { Box, Badge } from "@mui/material";
+import { Box } from "@mui/material";
 import styles from "../TodoList.module.scss";
-
-interface TabItem {
-  title: string;
-  badgeContent: number;
-  active: boolean;
-  isFirst: boolean;
-}
+import { TabStatusItem } from "../types/TodoTypes";
 
 interface StatusTabsProps {
-  tabs: TabItem[];
-  changeStatusTab: (tab: TabItem) => void;
+  tabs: TabStatusItem[];
+  changeStatusTab: (tab: TabStatusItem) => void;
 }
 
 const StatusTabs: React.FC<StatusTabsProps> = ({ tabs, changeStatusTab }) => {
@@ -24,7 +18,7 @@ const StatusTabs: React.FC<StatusTabsProps> = ({ tabs, changeStatusTab }) => {
           justifyContent: "space-between",
         }}
       >
-        {tabs.map((tab: TabItem, index: number) => (
+        {tabs.map((tab: TabStatusItem, index: number) => (
           <div
             onClick={() => changeStatusTab(tab)}
             key={index}

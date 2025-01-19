@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { getFormattedTodayDate } from "@/helpers/dateTimeHelper";
 import { showSuccessToast, showErrorToast } from "@/utils/toast";
@@ -65,20 +65,17 @@ const TabContent: React.FC<TabContentProps> = ({
   const handleFormSubmit = async (formData: TodoItemTypes) => {
     try {
       if (formData._id) {
-        const response = await AxiosInstance.put(
-          `/todos/update/${formData._id}`,
-          {
-            ...formData,
-          }
-        );
+        await AxiosInstance.put(`/todos/update/${formData._id}`, {
+          ...formData,
+        });
         onUpdateTodo(formData, tabType);
         showSuccessToast("Task Updated Successfully");
       } else {
-        const response = await AxiosInstance.post("/todos/create", {
+        const { data } = await AxiosInstance.post("/todos/create", {
           ...formData,
         });
         onCreateTodo();
-        showSuccessToast(response.message);
+        showSuccessToast(data.message);
       }
 
       setShowTaskModal(false);

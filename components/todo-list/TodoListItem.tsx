@@ -13,17 +13,15 @@ const TodoListItem: React.FC<TodoListItemProps> = ({
   onUpdate,
   onEdit,
 }) => {
-  const [isCompleted, setIsCompleted] = useState<boolean>(false);
   const completeTask = async (todo: TodoItemTypes) => {
     try {
-      const response = await AxiosInstance.put(`/todos/update/${todo._id}`, {
+      const { data } = await AxiosInstance.put(`/todos/update/${todo._id}`, {
         is_completed: !todo.is_completed,
       });
-      if (response) {
-        setIsCompleted(response.is_completed);
+      if (data) {
         const updatedTodo = {
           ...todo,
-          is_completed: response.is_completed,
+          is_completed: data.is_completed,
         };
         onUpdate(updatedTodo);
         showSuccessToast("Task Updated Successfully");
