@@ -16,3 +16,19 @@ export const isStartDateToday = (date: string): boolean => {
   const parsedDate = new Date(date);
   return isToday(parsedDate); // Checks if the date is today
 };
+
+export const getFormattedTodayDate = (): string => {
+  const today = new Date();
+
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: "long",
+    day: "numeric",
+    month: "short",
+  };
+
+  return today.toLocaleDateString("en-US", options);
+};
+
+export function formatDateForDatetimeLocal(date: string | Date): string {
+  return date.toString().slice(0, 16);
+}

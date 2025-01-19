@@ -11,9 +11,10 @@ interface TabItem {
 
 interface StatusTabsProps {
   tabs: TabItem[];
+  changeStatusTab: (tab: TabItem) => void;
 }
 
-const StatusTabs: React.FC<StatusTabsProps> = ({ tabs }) => {
+const StatusTabs: React.FC<StatusTabsProps> = ({ tabs, changeStatusTab }) => {
   return (
     <div className={styles.status_tabs}>
       <Box
@@ -25,6 +26,7 @@ const StatusTabs: React.FC<StatusTabsProps> = ({ tabs }) => {
       >
         {tabs.map((tab: TabItem, index: number) => (
           <div
+            onClick={() => changeStatusTab(tab)}
             key={index}
             className={`${styles.status_tab} ${
               tab.isFirst ? styles.status_tab_first : ""

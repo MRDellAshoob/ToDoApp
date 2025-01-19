@@ -21,9 +21,14 @@ type TodoItem = {
 interface TodoListItemProps {
   todo: TodoItem;
   onUpdate: (todo: TodoItem) => void;
+  onEdit: (todo: TodoItem) => void;
 }
 
-const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onUpdate }) => {
+const TodoListItem: React.FC<TodoListItemProps> = ({
+  todo,
+  onUpdate,
+  onEdit,
+}) => {
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
   const completeTask = async (todo: TodoItem) => {
     try {
@@ -66,7 +71,10 @@ const TodoListItem: React.FC<TodoListItemProps> = ({ todo, onUpdate }) => {
         <div className={styles.todo_card}>
           <div className={styles.todo_card_content}>
             <div className={styles.todo_card_content_head}>
-              <span className={styles.todo_card_title}>
+              <span
+                onClick={() => onEdit(todo)}
+                className={styles.todo_card_title}
+              >
                 {todo.is_completed ? <del>{todo.title}</del> : todo.title}
               </span>
               <span className={styles.todo_card_desc}>{todo.description}</span>
