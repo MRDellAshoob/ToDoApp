@@ -2,11 +2,7 @@
 import React, { useState, useEffect } from "react";
 import AxiosInstance from "@/utils/axiosInstance";
 import { showSuccessToast, showErrorToast } from "@/utils/toast";
-import {
-  TabPanelProps,
-  TodoFormItemTypes,
-  TodoItemTypes,
-} from "./types/TodoTypes";
+import { TabPanelProps, TodoFormItemTypes } from "./types/TodoTypes";
 import { isStartDateToday } from "@/helpers/dateTimeHelper";
 import { Tabs, Tab, Box } from "@mui/material";
 import styles from "./TodoList.module.scss";
